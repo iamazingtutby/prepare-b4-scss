@@ -25,7 +25,7 @@ gulp.task('js', function() {
         .pipe(gulp.dest("app/js"))
 });
 
-gulp.task('webserver', ['sass'], function() {
+gulp.task('webserver', gulp.series('sass', function() {
   gulp.src('app')
     .pipe(webserver({
       livereload: true,
@@ -33,7 +33,7 @@ gulp.task('webserver', ['sass'], function() {
       open: false,
       fallback: 'index.html'
     }));
-  gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'app/scss/*.scss', 'app/scss/components/*.scss', 'app/scss/components/*/*.scss'], ['sass']);
-});
+  gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'app/scss/*.scss', 'app/scss/components/*.scss', 'app/scss/components/*/*.scss'], gulp.series('sass'));
+}));
 
-gulp.task('default', ['js', 'webserver']);
+gulp.task('default', gulp.parallel('js', 'webserver'));
