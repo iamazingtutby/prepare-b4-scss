@@ -1,12 +1,11 @@
-var gulp         = require('gulp');
-var sass         = require('gulp-sass');
-var concat       = require("gulp-concat");
-var minifyCss    = require("gulp-minify-css");
-var uglify       = require("gulp-uglify");
-var autoprefixer = require('gulp-autoprefixer');
-var webserver    = require('gulp-webserver');
-var browserSync  = require('browser-sync').create();
-var fileinclude  = require('gulp-file-include');
+var gulp      = require('gulp'),
+ sass         = require('gulp-sass'),
+ concat       = require("gulp-concat"),
+ minifyCss    = require("gulp-minify-css"),
+ uglify       = require("gulp-uglify"),
+ autoprefixer = require('gulp-autoprefixer'),
+ webserver    = require('gulp-webserver'),
+ browserSync  = require('browser-sync').create();
 
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
@@ -27,11 +26,6 @@ gulp.task('js', function() {
         .pipe(gulp.dest("app/js"))
 });
 
-gulp.task('fileinclude', function() {
-  gulp.src(['**/*.html'])
-      .pipe(fileinclude())
-      .pipe(gulp.dest('./'));
-});
 
 gulp.task('browser-sync', gulp.series('sass', function() {
   browserSync.init({
@@ -42,4 +36,4 @@ gulp.task('browser-sync', gulp.series('sass', function() {
   gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'app/scss/*.scss', 'app/scss/components/*.scss', 'app/scss/components/*/*.scss'], gulp.series('sass'));
 }));
 
-gulp.task('default', gulp.parallel('js', 'browser-sync','fileinclude'));
+gulp.task('default', gulp.parallel('js', 'browser-sync'));
